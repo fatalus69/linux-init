@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -ex
+
 # Install PHP8.4
 sudo add-apt-repository ppa:ondrej/php
 sudo apt install php8.4 php8.4-cli
@@ -46,5 +48,30 @@ if uname -r | ! grep -qi "microsoft"; then
     sudo sh -c 'echo ""'
     sudo apt-get update && sudo apt-get install -y ddev
 
+    # Install trusted certificate
     mkcert -install
+
+    # Install DBeaver
+    wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb
+    sudo dpkg -x dbeaver-ce_latest_amd64.deb dbeaver
+
+    # Add dbeaver as ddev command
+    mkdir -p ~/.ddev/commands
+    touch ~/.ddev/commands/dbeaver
+
+    echo -e '#!/bin/bash\n\ndbeaver -host db -port 3306 -user db -password db' > ~/.ddev/commands/dbeaver
+    
+    chmod +x ~/.ddev/commands/dbeaver
 fi
+
+# Download and install nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+
+# in lieu of restarting the shell
+\. "$HOME/.nvm/nvm.sh"
+
+# Install node & npm:
+nvm install 22
+
+# Install bun
+curl -fsSL https://bun.sh/install | bash

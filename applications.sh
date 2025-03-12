@@ -14,6 +14,11 @@ local apt_pckgs = (
     apt-transport-https,
     ca-certificates,
     lsb-release,
+    neofetch,
+    openssl,
+    make,
+    gcc,
+    g++
 )
 
 apt install -y "${apt_pckgs[@]}"

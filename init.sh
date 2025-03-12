@@ -11,6 +11,3 @@ function install_workflow {
     bash "${working_dir}/zsh.sh"
     bash "${working_dir}/custom-install.sh"
 }
-
-
-

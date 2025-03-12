@@ -2,8 +2,6 @@ use strict;
 use warnings;
 
 sub zsh {
-    print("Whats up homie, Im Tony\n\n\n\n\n\n");
-    die;
     my $zshrc_path = "$ENV{HOME}/.zshrc";
     my $zshrc_backup_path  = "$ENV{HOME}/.zshrc.bak";
 
@@ -16,7 +14,12 @@ sub zsh {
     my @aliases = (
         "# Custom aliases:",
         "alias up='sudo apt update && sudo apt upgrade -y'",
-        "alias ll='ls -alF'"
+        "alias ll='ls -alF'",
+        "alias nf='neofetch'",
+        "alias db='ddev dbeaver'",
+        "alias dsh='ddev ssh'",
+        "alias ds='ddev start'",
+        "alias dk='ddev stop'",
     );
 
     # Backup original zshrc
