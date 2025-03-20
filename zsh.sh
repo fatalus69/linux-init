@@ -19,6 +19,8 @@ export PROFILE=~/.zshrc
 # Install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+curl -sSL https://github.com/zthxxx/jovial/raw/master/installer.sh | sudo -E bash -s ${USER:=`whoami`}
+
 perl -e 'do "./modify-files.pl"; zsh();'
 
 source ~/.zshrc

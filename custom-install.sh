@@ -75,3 +75,8 @@ nvm install 22
 
 # Install bun
 curl -fsSL https://bun.sh/install | bash
+
+# Install onefetch
+sudo add-apt-repository ppa:o2sh/onefetch
+sudo apt-get update
+sudo apt-get install onefetch

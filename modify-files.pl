@@ -5,21 +5,18 @@ sub zsh {
     my $zshrc_path = "$ENV{HOME}/.zshrc";
     my $zshrc_backup_path  = "$ENV{HOME}/.zshrc.bak";
 
-    my $zsh_theme = "fino-time";
+    my $zsh_theme = "jovial";
     my @plugins = (
         'arduino-cli', 'bun', 'cakephp3', 'command-not-found', 'composer', 'docker', 'docker-compose', 'git',
         'github', 'dotenv', 'drush', 'history', 'laravel', 'mongocli', 'node', 'npm', 'nvm', 'pip', 'python',
-        'ssh', 'sudo', 'symfony', 'tmux', 'ubuntu', 'vscode', 'yarn'
+        'ssh', 'sudo', 'symfony', 'tmux', 'ubuntu', 'vscode', 'yarn', 'zsh-autosuggestions', 'zsh-syntax-highlighting',
+        'jovial', 'zsh-history-enquirer', 'bg-notify', 'autojump', 'urltools'
     );
     my @aliases = (
         "# Custom aliases:",
         "alias up='sudo apt update && sudo apt upgrade -y'",
         "alias ll='ls -alF'",
         "alias nf='neofetch'",
-        "alias db='ddev dbeaver'",
-        "alias dsh='ddev ssh'",
-        "alias ds='ddev start'",
-        "alias dk='ddev stop'",
     );
 
     # Backup original zshrc
@@ -94,5 +91,5 @@ sub php {
     # Move the temp file to the original php.ini
     rename $temp_file, $php_ini_path or die "Failed to update php.ini: $!";
 
-    print("PHP configuration successful!\n");
+    print("PHP configuration successful! \n");
 }

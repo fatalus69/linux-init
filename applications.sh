@@ -21,4 +21,10 @@ local apt_pckgs = (
     g++
 )
 
-apt install -y "${apt_pckgs[@]}"
+@local npm_pckgs = (
+    typescript
+)
+
+sudo apt install -y "${apt_pckgs[@]}"
+
+npm install -g "${npm_pckgs[@]}"
