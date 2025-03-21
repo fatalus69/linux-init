@@ -2,8 +2,10 @@ use strict;
 use warnings;
 
 sub zsh {
-    my $zshrc_path = "$ENV{HOME}/.zshrc";
-    my $zshrc_backup_path  = "$ENV{HOME}/.zshrc.bak";
+    my $whoami = `whoami`;
+    chomp($whoami);
+    my $zshrc_path = "/home/".$whoami."/.zshrc";
+    my $zshrc_backup_path  = "/home/".$whoami."/.zshrc";
 
     my $zsh_theme = "jovial";
     my @plugins = (
@@ -57,7 +59,7 @@ sub php {
     my $backup_php_path  = "/etc/php/8.4/apache2/php.ini.bak";
 
     # Backup original php.ini
-    if (!-e $backup_path) {
+    if (!-e $backup_php_path) {
         system("cp", $php_ini_path, $backup_php_path) == 0 or die "Failed to create backup: $!";
     }
 
@@ -92,4 +94,18 @@ sub php {
     rename $temp_file, $php_ini_path or die "Failed to update php.ini: $!";
 
     print("PHP configuration successful! \n");
+}
+
+if (@ARGV) {
+    my $command = shift @ARGV;
+    if ($command eq 'zsh') {
+        zsh();
+    } elsif ($command eq 'php') {
+        php();
+    }
+     else {
+        print "Unknown command: $command\n";
+    }
+} else {
+    print "No command provided.\n";
 }

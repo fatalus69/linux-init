@@ -9,7 +9,7 @@ sudo apt install php8.4 php8.4-cli
 # Install PHP8.4 extensions
 sudo apt install php8.4 php8.4-common php8.4-fpm php8.4-cli php8.4-mysql php8.4-pgsql php8.4-sqlite3 php8.4-curl php8.4-gd php8.4-mbstring php8.4-xml php8.4-zip php8.4-bcmath php8.4-intl php8.4-soap php8.4-ldap php8.4-imap php8.4-opcache php8.4-readline php8.4-xdebug php8.4-dev php8.4-enchant php8.4-gmp php8.4-imagick php8.4-memcached php8.4-redis php8.4-tidy php8.4-uuid php8.4-pspell php8.4-snmp php8.4-sybase php8.4-odbc php8.4-dba php8.4-bz2
 
-perl -e 'do "./modify-files.pl"; php();'
+perl ./modify-files.pl php
 
 # Install composer (v2.8.6) May need to be changed when a new version is released
 # refer to https://getcomposer.org/download/ if that is the case
@@ -24,7 +24,7 @@ sudo mv composer.phar /usr/local/bin/composer
 if uname -r | ! grep -qi "microsoft"; then
 
     # Install Docker-cli
-    # https://docs.docker.com/engine/install/debian/#install-using-the-repository
+    # https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository
     sudo install -m 0755 -d /etc/apt/keyrings
     sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
     sudo chmod a+r /etc/apt/keyrings/docker.asc

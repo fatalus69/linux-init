@@ -21,6 +21,6 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 
 curl -sSL https://github.com/zthxxx/jovial/raw/master/installer.sh | sudo -E bash -s ${USER:=`whoami`}
 
-perl -e 'do "./modify-files.pl"; zsh();'
+perl ./modify-files.pl zsh
 
 source ~/.zshrc

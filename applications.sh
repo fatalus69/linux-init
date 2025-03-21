@@ -21,7 +21,7 @@ local apt_pckgs = (
     g++
 )
 
-@local npm_pckgs = (
+local npm_pckgs = (
     typescript
 )
 
