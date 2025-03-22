@@ -22,7 +22,7 @@ sub zsh {
     );
 
     # Backup original zshrc
-    copy($zshrc_path, $zshrc_backup_path) or die "Failed to create backup: $!";
+    copy($zshrc_path, $zshrc_backup_path) or die "Failed to create backup: $!, $zshrc_path, $zshrc_backup_path";
 
     my @lines = do {
         open(my $fh, '<', $zshrc_path) or die "Can't open file: $!";
@@ -63,7 +63,7 @@ sub zsh {
     }
 
     # Write the modified lines back to the file
-    open($fh, '>', $zshrc_path) or die "Can't write to file: $!";
+    open(my $fh, '>', $zshrc_path) or die "Can't write to file: $!";
     print $fh @new_lines;
     close($fh);
 
@@ -75,7 +75,7 @@ sub php {
     my $backup_php_path  = "/etc/php/8.4/apache2/php.ini.bak";
 
     # Backup original php.ini
-    copy($php_ini_path, $php_ini_backup_path) or die "Failed to create backup: $!";
+    copy($php_ini_path, $backup_php_path) or die "Failed to create backup: $!";
 
     my @lines = do {
         open(my $fh, '<', $php_ini_path) or die "Can't open file: $!";

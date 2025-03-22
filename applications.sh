@@ -1,27 +1,27 @@
 #!/usr/bin/env bash
 
-local apt_pckgs = (
-    curl,
-    wget,
-    vim,
-    tmux,
-    tree,
-    tar,
-    unzip,
-    zip,
-    software-properties-common,
-    gnupg2,
-    apt-transport-https,
-    ca-certificates,
-    lsb-release,
-    neofetch,
-    openssl,
-    make,
-    gcc,
+apt_pckgs=(
+    curl
+    wget
+    vim
+    tmux
+    tree
+    tar
+    unzip
+    zip
+    software-properties-common
+    gnupg2
+    apt-transport-https
+    ca-certificates
+    lsb-release
+    neofetch
+    openssl
+    make
+    gcc
     g++
 )
 
-local npm_pckgs = (
+npm_pckgs=(
     typescript
 )
 
