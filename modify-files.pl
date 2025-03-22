@@ -1,11 +1,11 @@
 use strict;
 use warnings;
+use File::Copy;
 
 sub zsh {
-    my $whoami = `whoami`;
-    chomp($whoami);
+    my $whoami = getpwuid($<);
     my $zshrc_path = "/home/".$whoami."/.zshrc";
-    my $zshrc_backup_path  = "/home/".$whoami."/.zshrc";
+    my $zshrc_backup_path  = "/home/".$whoami."/.zshrc.bak";
 
     my $zsh_theme = "jovial";
     my @plugins = (
@@ -22,33 +22,49 @@ sub zsh {
     );
 
     # Backup original zshrc
-    if (!-e $zshrc_backup_path) {
-        system("cp", $zshrc_path, $zshrc_backup_path) == 0 or die "Failed to create backup: $!";
-    }
+    copy($zshrc_path, $zshrc_backup_path) or die "Failed to create backup: $!";
 
-    open(my $fh, '<', $zshrc_path) or die "Can't open file: $!";
-    my @lines = <$fh>;
-    close($fh);
+    my @lines = do {
+        open(my $fh, '<', $zshrc_path) or die "Can't open file: $!";
+        <$fh>;
+    };
+
+    my $in_plugins_block = 0;
+    my @collected_plugins = ();
+    my @new_lines = ();
 
     # Join plugins to string and replace the existing plugins line
     foreach my $line (@lines) {
-        if ($line =~ /plugins=\((.*)\)/) {
-            my $plugins_str = join(' ', @plugins);
-            $line =~ s/\((.*)\)/($plugins_str)/;
+        if ($line =~ /^\s*plugins\s*=\s*\(/) {
+            $in_plugins_block = 1;
+            @collected_plugins = ();
+            next;
         }
-        if ($line =~ /ZSH_THEME=".*"/) {
+        if ($in_plugins_block) {
+            if ($line =~ /\)/) {
+                $in_plugins_block = 0;
+                my $plugins_str = join(' ', @plugins);
+                push @new_lines, "plugins=($plugins_str)\n";
+            } else {
+                # Ignore existing plugins
+                next;
+            }
+        } else {
+            # Change theme 
             $line =~ s/ZSH_THEME=".*"/ZSH_THEME="$zsh_theme"/;
+            push @new_lines, $line;
         }
     }
 
-    # Join aliases to lines
+    # Join aliases to the end of .zshrc
+    my %existing_lines = map { $_ => 1 } @lines;
     foreach my $alias (@aliases) {
-        push(@lines, "\n".$alias);
+        push(@new_lines, "$alias\n") unless $existing_lines{$alias};
     }
 
     # Write the modified lines back to the file
-    open($fh, '>', $zshrc_path) or die "Can't open file: $!";
-    print $fh @lines;
+    open($fh, '>', $zshrc_path) or die "Can't write to file: $!";
+    print $fh @new_lines;
     close($fh);
 
     print("Zsh configuration successful!\n");
@@ -59,13 +75,12 @@ sub php {
     my $backup_php_path  = "/etc/php/8.4/apache2/php.ini.bak";
 
     # Backup original php.ini
-    if (!-e $backup_php_path) {
-        system("cp", $php_ini_path, $backup_php_path) == 0 or die "Failed to create backup: $!";
-    }
+    copy($php_ini_path, $php_ini_backup_path) or die "Failed to create backup: $!";
 
-    open(my $fh, '<', $php_ini_path) or die "Can't open file: $!";
-    my @lines = <$fh>;
-    close($fh);
+    my @lines = do {
+        open(my $fh, '<', $php_ini_path) or die "Can't open file: $!";
+        <$fh>;
+    };
 
     # Modify php.ini
     for (@lines) {
