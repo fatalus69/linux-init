@@ -8,8 +8,8 @@ Initialize my Linux Environment on Ubuntu. Also tested on Debian, so it should w
 
 To install run the following command to download and execute the installation script:
 
-    ```sh
-    curl -sL https://raw.githubusercontent.com/fatalus69/linux-init/refs/heads/master/install.sh | bash
-    ```
+```sh
+curl -sL https://raw.githubusercontent.com/fatalus69/linux-init/refs/heads/master/install.sh | bash
+```
 
 Thats it and you're good to go.
