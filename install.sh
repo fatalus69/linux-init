@@ -28,7 +28,7 @@ download
 # remove sudo timeout
 sudo perl -i -pe "s/^Defaults\tenv_reset.*/Defaults\tenv_reset, timestamp_timeout=-1/" /etc/sudoers
 
-sudo -i sudo -u $USER -i "`pwd`/init.sh"
+sudo -i sudo -u $USER -i "./init.sh"
 
 # set sudo timeout back to default 15min
 sudo perl -i -pe "s/^Defaults\tenv_reset.*/Defaults\tenv_reset, timestamp_timeout=900/" /etc/sudoers
