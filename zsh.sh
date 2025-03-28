@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -ex
+set -e
 
 # Install zsh if not installed
 if ! which zsh &> /dev/null; then

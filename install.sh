@@ -7,14 +7,14 @@ is_command() {
 }
 
 download() {
-  if ! which git &> /dev/null; then
+  if ! is_command git; then
     sudo apt install -y git
   fi
   # Remove existing directory if it exists
   rm -rf "${PROJECT_NAME}"
   # Clone the repository
   git clone "https://github.com/fatalus69/${PROJECT_NAME}.git" || exit 1
-  cd "$PROJECT_NAME"
+  cd "$PROJECT_NAME" || { echo "Failed to enter $PROJECT_NAME directory"; exit 1; }
 }
 
 echo '
@@ -26,9 +26,9 @@ echo '
 download
 
 # remove sudo timeout
-sudo perl -i -pe "s/^Defaults\tenv_reset.*/Defaults\tenv_reset, timestamp_timeout=-1/" /etc/sudoers
+echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/$USER-init
 
-sudo -i sudo -u $USER -i "./init.sh"
+sudo -u "$USER" bash "./init.sh"
 
 # set sudo timeout back to default 15min
-sudo perl -i -pe "s/^Defaults\tenv_reset.*/Defaults\tenv_reset, timestamp_timeout=900/" /etc/sudoers
+sudo rm -f /etc/sudoers.d/$USER-init

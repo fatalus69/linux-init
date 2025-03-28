@@ -19,6 +19,7 @@ sub zsh {
         "alias up='sudo apt update && sudo apt upgrade -y'",
         "alias ll='ls -alF'",
         "alias nf='neofetch'",
+        "alias sz='source ~/.zshrc'"
     );
 
     # Backup original zshrc
