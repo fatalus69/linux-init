@@ -7,16 +7,28 @@ sudo add-apt-repository ppa:ondrej/php
 sudo apt install php8.4 php8.4-cli
 
 # Install PHP8.4 extensions
-sudo apt install php8.4 php8.4-common php8.4-fpm php8.4-cli php8.4-mysql php8.4-pgsql php8.4-sqlite3 php8.4-curl php8.4-gd php8.4-mbstring php8.4-xml php8.4-zip php8.4-bcmath php8.4-intl php8.4-soap php8.4-ldap php8.4-imap php8.4-opcache php8.4-readline php8.4-xdebug php8.4-dev php8.4-enchant php8.4-gmp php8.4-imagick php8.4-memcached php8.4-redis php8.4-tidy php8.4-uuid php8.4-pspell php8.4-snmp php8.4-sybase php8.4-odbc php8.4-dba php8.4-bz2
+sudo apt install php8.4 php8.4-common php8.4-fpm php8.4-mysql php8.4-pgsql php8.4-sqlite3 php8.4-curl php8.4-gd php8.4-mbstring php8.4-xml php8.4-zip php8.4-bcmath php8.4-intl php8.4-ldap php8.4-imap php8.4-opcache php8.4-readline php8.4-xdebug php8.4-dev php8.4-enchant php8.4-gmp php8.4-imagick php8.4-memcached php8.4-redis php8.4-tidy php8.4-uuid php8.4-pspell php8.4-snmp php8.4-sybase php8.4-odbc php8.4-dba php8.4-bz2
 
 sudo perl ./modify-files.pl php
 
-# Install composer (v2.8.6) May need to be changed when a new version is released
-# refer to https://getcomposer.org/download/ if that is the case
+# Install composer (latest version)
+EXPECTED_CHECKSUM="$(php -r 'copy("https://composer.github.io/installer.sig", "php://stdout");')"
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'.PHP_EOL; } else { echo 'Installer corrupt'.PHP_EOL; unlink('composer-setup.php'); exit(1); }"
-php composer-setup.php
-php -r "unlink('composer-setup.php');"
+ACTUAL_CHECKSUM="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
+
+if [ "$EXPECTED_CHECKSUM" != "$ACTUAL_CHECKSUM" ]; then
+    >&2 echo 'ERROR: Invalid installer checksum'
+    rm composer-setup.php
+    exit 1
+fi
+
+php composer-setup.php --quiet
+RESULT=$?
+rm composer-setup.php
+if [ $RESULT -ne 0 ]; then
+    echo 'ERROR: Composer installation failed'
+    exit $RESULT
+fi
 
 sudo mv composer.phar /usr/local/bin/composer
 
