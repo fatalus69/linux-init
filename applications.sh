@@ -19,6 +19,9 @@ apt_pckgs=(
     make
     gcc
     g++
+    cmake
+    lua5.4
+    nvim
 )
 
 npm_pckgs=(

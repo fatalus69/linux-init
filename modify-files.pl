@@ -9,17 +9,15 @@ sub zsh {
 
     my $zsh_theme = "jovial";
     my @plugins = (
-        'arduino-cli', 'bun', 'cakephp3', 'command-not-found', 'composer', 'docker', 'docker-compose', 'git',
-        'github', 'dotenv', 'drush', 'history', 'laravel', 'mongocli', 'node', 'npm', 'nvm', 'pip', 'python',
-        'ssh', 'sudo', 'symfony', 'tmux', 'ubuntu', 'vscode', 'yarn', 'zsh-autosuggestions', 'zsh-syntax-highlighting',
-        'jovial', 'zsh-history-enquirer', 'bg-notify', 'autojump', 'urltools'
+        'command-not-found', 'git', 'dotenv', 'ssh', 'sudo', 'zsh-autosuggestions', 'zsh-syntax-highlighting', 'jovial',
     );
     my @aliases = (
         "# Custom aliases:",
         "alias up='sudo apt update && sudo apt upgrade -y'",
         "alias ll='ls -alF'",
         "alias nf='neofetch'",
-        "alias sz='source ~/.zshrc'"
+        "alias sz='source ~/.zshrc'",
+        "alias python='python3'"
     );
 
     # Backup original zshrc
@@ -46,10 +44,9 @@ sub zsh {
                 $in_plugins_block = 0;
                 my $plugins_str = join(' ', @plugins);
                 push @new_lines, "plugins=($plugins_str)\n";
-            } else {
-                # Ignore existing plugins
-                next;
-            }
+            } 
+            # Ignore existing plugins
+            next;  
         } else {
             # Change theme 
             $line =~ s/ZSH_THEME=".*"/ZSH_THEME="$zsh_theme"/;
